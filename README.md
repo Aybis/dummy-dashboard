@@ -27,12 +27,21 @@ decision is logged with who approved it and why.
 - **Real Leaflet map** with dual route polylines (I-80 congested vs I-680
   proposed), custom markers, animated overlay.
 - **Working Approve / Decline** — state transitions, decision receipt, reset.
-  Verified in browser.
+- **Every menu is a real page** — Overview, Live map, Shipments, Routes,
+  Documents, Analytics, Settings. Nav lives in the URL hash, so back/forward
+  and deep links work.
+- **Working search** (⌘K) filters shipments and documents live, with an empty
+  state instead of a blank table.
+- **Agent drawer** — click any agent in the sidebar for its detail panel.
 - Dark surface scale + single lime accent, tabular numerics throughout.
 
-| Gallery | Dashboard |
+| Gallery | Overview |
 |---|---|
 | ![gallery](preview/gallery.png) | ![fleetflow](preview/dashboard.png) |
+
+| Shipments | Analytics |
+|---|---|
+| ![shipments](preview/page-shipments.png) | ![analytics](preview/page-analytics.png) |
 
 Source: IG reel [@ui.iliasmiah000](https://www.instagram.com/reel/DfKk_35BP85/)
 
@@ -58,11 +67,13 @@ src/
 ├── dashboards/
 │   ├── registry.ts          ← the list (id, meta, component)
 │   └── fleetflow/
-│       ├── FleetFlow.tsx    ← default export
+│       ├── FleetFlow.tsx    ← default export, hosts the section switch
+│       ├── nav.ts           ← section ids + hash navigation
+│       ├── pages.tsx        ← one component per sidebar page
 │       ├── components/
 │       └── data/
 ├── Gallery.tsx              ← the shelf
-├── App.tsx                  ← hash router: #/ and #/d/<id>
+├── App.tsx                  ← hash router: #/ and #/d/<id>[/<section>]
 └── index.css                ← shared tokens + Leaflet overrides
 ```
 

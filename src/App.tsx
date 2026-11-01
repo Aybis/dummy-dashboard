@@ -19,8 +19,8 @@ function useHashRoute() {
 export default function App() {
   const route = useHashRoute();
 
-  // "#/d/fleetflow" -> "d/fleetflow"
-  const match = route.match(/^d\/([\w-]+)$/);
+  // "#/d/fleetflow" or "#/d/fleetflow/shipments" -> dashboard id + section
+  const match = route.match(/^d\/([\w-]+)(?:\/([\w-]+))?$/);
   const dash = match ? byId(match[1]) : undefined;
 
   if (dash) {
