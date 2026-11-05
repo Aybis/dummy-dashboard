@@ -1,20 +1,30 @@
 /** Per-app settings. Everything environment-specific comes from VITE_* env vars. */
 const env = import.meta.env
 
+const trim = (v: string) => v.replace(/\/$/, '')
+
 export const APP = {
   name: 'App A',
-  /** Public origin of THIS app. Must be in Kratos `allowed_return_urls` + CORS origins. */
-  origin: (env.VITE_APP_URL || 'http://localhost:5174').replace(/\/$/, ''),
+  /** Public origin of THIS app. Redirect URIs below are derived from it. */
+  origin: trim(env.VITE_APP_URL || 'http://localhost:5174'),
   accent: '#2563eb',
-  /** Show the sign-up page. Set VITE_REGISTER_ENABLED=false if sign-up lives elsewhere. */
-  registerEnabled: (env.VITE_REGISTER_ENABLED || 'true') === 'true',
-  /** The sibling app, used only for the "check the shared session" link. */
+  /** The sibling app, used only for the "check SSO" link. */
   otherApp: { name: 'App B', url: env.VITE_OTHER_APP_URL || 'http://localhost:5175/' },
 }
 
 /**
- * Base URL of your Ory identity server (Kratos public API / Ory Network SDK URL).
- * Browser flows rely on cookies, so this must be same-site with the app —
- * for Ory Network in local dev, run `ory tunnel` and point this at the tunnel.
+ * OpenID Connect settings for Thermis (Ory Hydra). Register this app in the Thermis
+ * portal as a Single-page application: it is a *public* client (no client secret —
+ * anything shipped to a browser is public), protected by PKCE.
  */
-export const KRATOS_URL: string = (env.VITE_KRATOS_URL || 'http://localhost:4433').replace(/\/$/, '')
+export const OIDC = {
+  /** Hydra public URL = issuer. Discovery: {issuer}/.well-known/openid-configuration */
+  issuer: trim(env.VITE_OIDC_ISSUER || 'http://localhost:4444'),
+  /** client_id shown by the Thermis portal after registering the application. */
+  clientId: env.VITE_OIDC_CLIENT_ID || '',
+  scope: env.VITE_OIDC_SCOPE || 'openid profile email',
+  /** Must be registered exactly as a redirect URI of the application in Thermis. */
+  redirectUri: env.VITE_OIDC_REDIRECT_URI || `${trim(env.VITE_APP_URL || 'http://localhost:5174')}/callback`,
+  /** Must be registered as a post-logout redirect URI of the application in Thermis. */
+  postLogoutRedirectUri: env.VITE_OIDC_POST_LOGOUT_REDIRECT_URI || `${trim(env.VITE_APP_URL || 'http://localhost:5174')}/`,
+}

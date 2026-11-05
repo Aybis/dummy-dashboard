@@ -3,14 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Ory Kratos test app B — second client that proves the shared session.",
+  "description": "Thermis (Ory Hydra) OIDC test client B \u2014 Authorization Code + PKCE, userinfo, SSO, logout.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ory/client": "^1.22.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

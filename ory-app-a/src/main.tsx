@@ -5,6 +5,6 @@ import App from './App.tsx'
 
 document.documentElement.style.setProperty('--accent', APP.accent)
 
-// Deliberately no <StrictMode>: its double-invoked effects would create two
-// Kratos flows at once and the second CSRF cookie would invalidate the first.
+// Deliberately no <StrictMode>: its double-invoked effects would redeem the one-time
+// authorization code twice, and Hydra revokes the tokens when a code is reused.
 createRoot(document.getElementById('root')!).render(<App />)

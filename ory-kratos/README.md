@@ -1,4 +1,9 @@
-# Ory SSO test — Kratos + 2 React apps
+# Ory Kratos (legacy)
+
+> **ory-app-a dan ory-app-b tidak lagi memakai Kratos.** Keduanya sekarang klien OpenID Connect
+> (Authorization Code + PKCE) ke **Thermis / Ory Hydra** — lihat [`ory-app-a/README.md`](../ory-app-a/README.md).
+> Folder ini disimpan hanya sebagai referensi konfigurasi Kratos; isi di bawah menggambarkan versi lama.
+
 
 | Folder | Port | Peran |
 |---|---|---|

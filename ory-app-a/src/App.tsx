@@ -1,42 +1,41 @@
-import { useCallback, useEffect, useState } from 'react'
-import { APP } from './config.ts'
-import { AuthPage } from './AuthPage.tsx'
+import { useEffect, useState } from 'react'
+import { APP, OIDC } from './config.ts'
+import { OidcError, handleCallback, isCallback } from './oidc.ts'
 import { Profile } from './Profile.tsx'
 
-/** Hash routing keeps this a pure static SPA: no server rewrites needed. */
-function useRoute() {
-  const read = () => window.location.hash.replace(/^#/, '').split('?')[0] || '/profile'
-  const [route, setRoute] = useState(read)
-  useEffect(() => {
-    const on = () => setRoute(read())
-    window.addEventListener('hashchange', on)
-    return () => window.removeEventListener('hashchange', on)
-  }, [])
-  const go = useCallback((to: string) => {
-    window.location.hash = to
-    setRoute(to.split('?')[0])
-  }, [])
-  return { route, go }
-}
+type Callback = { phase: 'none' } | { phase: 'busy' } | { phase: 'error'; message: string; hint?: string }
 
 export default function App() {
-  const { route, go } = useRoute()
+  const [cb, setCb] = useState<Callback>(isCallback() ? { phase: 'busy' } : { phase: 'none' })
+
+  useEffect(() => {
+    if (!isCallback()) return
+    handleCallback()
+      .then(() => {
+        // Drop ?code=&state= from the address bar and history.
+        window.history.replaceState(null, '', '/#/profile')
+        setCb({ phase: 'none' })
+      })
+      .catch((err: unknown) => setCb({ phase: 'error', message: err instanceof Error ? err.message : String(err), hint: err instanceof OidcError ? err.hint : undefined }))
+  }, [])
+
   return (
     <>
       <header>
         <strong>{APP.name}</strong>
-        <span className="tag">Ory Kratos test</span>
-        <nav>
-          <a href="#/profile">Profile</a>
-          <a href="#/login">Login</a>
-          {APP.registerEnabled && <a href="#/register">Daftar</a>}
-        </nav>
+        <span className="tag">OIDC client · Thermis ({OIDC.issuer})</span>
       </header>
       <main>
-        {route === '/login' && <AuthPage mode="login" go={go} />}
-        {route === '/register' && APP.registerEnabled && <AuthPage mode="register" go={go} />}
-        {(route === '/profile' || route === '/' || (route === '/register' && !APP.registerEnabled)) && <Profile go={go} />}
-        {!['/login', '/register', '/profile', '/'].includes(route) && <Profile go={go} />}
+        {cb.phase === 'busy' && <section className="card"><p className="sub">Menukar authorization code dengan token…</p></section>}
+        {cb.phase === 'error' && (
+          <section className="card">
+            <h1>Login gagal</h1>
+            <p className="msg error" data-testid="callback-error">{cb.message}</p>
+            {cb.hint && <p className="sub">{cb.hint}</p>}
+            <button onClick={() => { window.history.replaceState(null, '', '/'); setCb({ phase: 'none' }) }}>Kembali</button>
+          </section>
+        )}
+        {cb.phase === 'none' && <Profile />}
       </main>
     </>
   )
