@@ -23,3 +23,8 @@ pnpm-debug.log*
 # build cache
 .tsbuildinfo
 *.tsbuildinfo
+
+# env files (keep *.example)
+.env
+.env.*
+!.env.example
