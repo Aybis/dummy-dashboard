@@ -25,3 +25,25 @@ th, td { padding: 6px 4px; border-bottom: 1px solid var(--line); word-break: bre
 pre { max-height: 260px; overflow: auto; background: rgba(127,127,127,.12); padding: 10px; border-radius: 8px; font-size: 12px; }
 .row { display: flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
 .btn-link { background: transparent; color: var(--accent); padding-left: 0; }
+
+/* ── signed-in layout ── */
+header nav { margin-left: 24px; }
+header nav a { text-decoration: none; color: var(--muted); padding: 4px 2px; border-bottom: 2px solid transparent; }
+header nav a.active { color: var(--fg); border-bottom-color: var(--accent); }
+.user { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.avatar { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; }
+.who { font-size: 14px; }
+button.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); padding: 6px 12px; }
+.home { width: 100%; max-width: 860px; display: grid; gap: 20px; }
+.hero { padding: 8px 0 0; }
+.eyebrow { margin: 0; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.hero h1 { font-size: 28px; margin: 4px 0 6px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.tile, .panel { background: color-mix(in srgb, var(--bg) 60%, white 40%); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.tile h2, .panel h2 { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.big { margin: 0; font-size: 18px; font-weight: 700; word-break: break-all; }
+.tile .sub { margin: 4px 0 0; font-size: 13px; }
+.btn-outline { padding: 9px 16px; border: 1px solid var(--line); border-radius: 8px; color: var(--fg); text-decoration: none; font-weight: 600; }
+@media (max-width: 600px) { .who { display: none; } header nav { margin-left: 12px; } }
+table.users th, table.users td { width: auto; word-break: normal; }
+table.users thead th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }

@@ -1,20 +1,23 @@
-/** Per-app settings. Everything environment-specific comes from VITE_* env vars. */
+/** Per-app settings. Everything environment-specific comes from VITE_* env vars (all public). */
 const env = import.meta.env
+
+const origin = (env.VITE_APP_URL || 'http://localhost:5174').replace(/\/$/, '')
 
 export const APP = {
   name: 'App A',
-  /** Public origin of THIS app. Must be in Kratos `allowed_return_urls` + CORS origins. */
-  origin: (env.VITE_APP_URL || 'http://localhost:5174').replace(/\/$/, ''),
+  origin,
   accent: '#2563eb',
-  /** Show the sign-up page. Set VITE_REGISTER_ENABLED=false if sign-up lives elsewhere. */
-  registerEnabled: (env.VITE_REGISTER_ENABLED || 'true') === 'true',
   /** The sibling app, used only for the "check the shared session" link. */
   otherApp: { name: 'App B', url: env.VITE_OTHER_APP_URL || 'http://localhost:5175/' },
 }
 
-/**
- * Base URL of your Ory identity server (Kratos public API / Ory Network SDK URL).
- * Browser flows rely on cookies, so this must be same-site with the app —
- * for Ory Network in local dev, run `ory tunnel` and point this at the tunnel.
- */
-export const KRATOS_URL: string = (env.VITE_KRATOS_URL || 'http://localhost:4433').replace(/\/$/, '')
+/** OpenID Connect settings for Thermis (Ory Hydra). SPA = public client: no secret, PKCE only. */
+export const OIDC = {
+  /** Hydra public URL. Endpoints are discovered from {issuer}/.well-known/openid-configuration. */
+  issuer: (env.VITE_OIDC_ISSUER || 'http://localhost:4444').replace(/\/$/, ''),
+  /** client_id of this app, shown in the Thermis portal after creating the application. */
+  clientId: (env.VITE_OIDC_CLIENT_ID || '') as string,
+  redirectUri: env.VITE_OIDC_REDIRECT_URI || `${origin}/callback`,
+  postLogoutRedirectUri: env.VITE_OIDC_POST_LOGOUT_REDIRECT_URI || `${origin}/`,
+  scope: env.VITE_OIDC_SCOPE || 'openid profile email offline_access',
+}

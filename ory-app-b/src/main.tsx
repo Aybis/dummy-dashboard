@@ -5,6 +5,5 @@ import App from './App.tsx'
 
 document.documentElement.style.setProperty('--accent', APP.accent)
 
-// Deliberately no <StrictMode>: its double-invoked effects would create two
-// Kratos flows at once and the second CSRF cookie would invalidate the first.
+// No <StrictMode>: the OIDC callback must run exactly once (the authorization code is single use).
 createRoot(document.getElementById('root')!).render(<App />)

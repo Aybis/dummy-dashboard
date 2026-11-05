@@ -1,0 +1,9 @@
+[
+  { "email": "siti.rahma@maya.co.id", "name": "Siti Rahma", "role": "admin" },
+  { "email": "budi.santoso@maya.co.id", "name": "Budi Santoso", "role": "member" },
+  { "email": "rizky.pratama@maya.co.id", "name": "Rizky Pratama", "role": "member" },
+  { "email": "jane.smith@gmail.com", "name": "Jane Smith", "role": "member" },
+  { "email": "john.doe@gmail.com", "name": "John Doe", "role": "viewer" },
+  { "email": "linda.hartono@gmail.com", "name": "Linda Hartono", "role": "viewer" },
+  { "email": "michael.tan@gmail.com", "name": "Michael Tan", "role": "member" }
+]

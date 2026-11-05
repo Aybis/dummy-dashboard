@@ -3,14 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Ory Kratos test app A — register, login, whoami, logout.",
+  "description": "Ory Kratos test app A \u2014 register, login, whoami, logout.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "APP_NAME=\"App A\" API_PORT=4101 node --disable-warning=ExperimentalWarning server/index.mjs",
+    "dev:all": "npm run api & vite"
   },
   "dependencies": {
-    "@ory/client": "^1.22.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

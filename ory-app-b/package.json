@@ -3,14 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Ory Kratos test app B — second client that proves the shared session.",
+  "description": "Ory Kratos test app B \u2014 second client that proves the shared session.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "APP_NAME=\"App B\" API_PORT=4102 node --disable-warning=ExperimentalWarning server/index.mjs",
+    "dev:all": "npm run api & vite"
   },
   "dependencies": {
-    "@ory/client": "^1.22.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
