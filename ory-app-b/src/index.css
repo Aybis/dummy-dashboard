@@ -1,0 +1,27 @@
+:root { --accent: #2563eb; --bg: #f6f7f9; --fg: #111827; --muted: #6b7280; --line: #e5e7eb; --ok: #047857; --err: #b91c1c; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0f1115; --fg: #e5e7eb; --muted: #9ca3af; --line: #272b33; --ok: #34d399; --err: #f87171; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, sans-serif; }
+header { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 3px solid var(--accent); }
+header .tag { font-size: 12px; color: var(--muted); }
+nav { margin-left: auto; display: flex; gap: 16px; }
+a { color: var(--accent); }
+main { display: grid; place-items: start center; padding: 32px 16px; }
+.card { width: 100%; max-width: 400px; background: color-mix(in srgb, var(--bg) 60%, white 40%); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+.card.wide { max-width: 640px; }
+h1 { margin: 0 0 4px; font-size: 22px; }
+.sub { color: var(--muted); margin: 0 0 16px; }
+.field { display: block; margin-bottom: 14px; }
+.field span { display: block; font-size: 13px; margin-bottom: 4px; color: var(--muted); }
+input { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: inherit; font: inherit; }
+button, .btn-link { padding: 9px 16px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; }
+button:disabled { opacity: .6; cursor: wait; }
+.msg { font-size: 13px; margin: 6px 0 12px; color: var(--muted); }
+.msg.error { color: var(--err); } .msg.ok { color: var(--ok); }
+.alt { margin: 16px 0 0; font-size: 13px; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 14px; }
+th { text-align: left; width: 38%; color: var(--muted); font-weight: 500; }
+th, td { padding: 6px 4px; border-bottom: 1px solid var(--line); word-break: break-all; }
+pre { max-height: 260px; overflow: auto; background: rgba(127,127,127,.12); padding: 10px; border-radius: 8px; font-size: 12px; }
+.row { display: flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+.btn-link { background: transparent; color: var(--accent); padding-left: 0; }

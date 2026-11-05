@@ -1,0 +1,35 @@
+# Ory Kratos for local testing:  docker compose up
+#   public API : http://localhost:4433
+#   admin API  : http://localhost:4434
+services:
+  kratos-migrate:
+    image: oryd/kratos:v1.3.1
+    environment:
+      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
+      - SECRETS_COOKIE=${KRATOS_COOKIE_SECRET:?copy .env.example to .env and set KRATOS_COOKIE_SECRET}
+      - SECRETS_CIPHER=${KRATOS_CIPHER_SECRET:?copy .env.example to .env and set KRATOS_CIPHER_SECRET}
+    volumes:
+      - kratos-sqlite:/var/lib/sqlite
+      - ./config:/etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: "no"
+
+  kratos:
+    image: oryd/kratos:v1.3.1
+    depends_on:
+      kratos-migrate:
+        condition: service_completed_successfully
+    ports:
+      - "${KRATOS_PUBLIC_PORT:-4433}:4433"
+      - "${KRATOS_ADMIN_PORT:-4434}:4434"
+    environment:
+      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
+      - SECRETS_COOKIE=${KRATOS_COOKIE_SECRET:?copy .env.example to .env and set KRATOS_COOKIE_SECRET}
+      - SECRETS_CIPHER=${KRATOS_CIPHER_SECRET:?copy .env.example to .env and set KRATOS_CIPHER_SECRET}
+    volumes:
+      - kratos-sqlite:/var/lib/sqlite
+      - ./config:/etc/config/kratos
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+
+volumes:
+  kratos-sqlite:
